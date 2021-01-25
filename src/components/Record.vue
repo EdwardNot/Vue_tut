@@ -1,5 +1,5 @@
 <template>
-    <div class="record-item">
+    <div class="record-item" @click="favRecord(record.id)">
         <div class="user-profile_record">
             <div class="record-item_user">
                 @{{ username }}
@@ -22,6 +22,11 @@ export default {
         record: {
             type: Object,
             required: true
+        }
+    },
+    methods: {
+        favRecord(id){
+            this.$emit('favourite', id)
         }
     }
 };

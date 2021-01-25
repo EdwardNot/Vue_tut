@@ -11,7 +11,12 @@
       </button> -->
     </div>
     <div class = "user-profile_records-wrapper">
-        <Record v-for="record in user.records" :key="record.id" :username="user.username" :record="record"/>
+        <Record
+            v-for="record in user.records"
+            :key="record.id"
+            :username="user.username"
+            :record="record"
+            @favourite="toggleFavorite"/>
         <!-- <div class = "user-prodile_records" v-for="record in user.records" :key="record.id">
             {{record.content}}
         </div> -->
@@ -61,6 +66,9 @@ export default {
   methods: {
     followUser() {
       this.followers++
+    },
+    toggleFavorite(id){
+        console.log(`Favoutited Record #${id}`)
     }
   },
   mounted() {
