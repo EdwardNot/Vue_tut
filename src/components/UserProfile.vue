@@ -6,8 +6,8 @@
       <div class = "user-profile_follower-counter">
         <strong>Followers:</strong> {{ followers }}
       </div>
-      <form class="user-profile_create-record" @submit.prevent="createNewRecord">
-        <label for="newRecord"><strong>New Record</strong></label>
+      <form class="user-profile_create-record" @submit.prevent="createNewRecord" :class="{ '--exceeded': newRecordCharacterCount > 140}">
+        <label for="newRecord"><strong>New Record</strong> ({{ newRecordCharacterCount }}/140)</label>
         <textarea id="newRecord" rows="4" v-model="newRecordContent"></textarea>
 
         <div class="user-profile_create-record-type">
@@ -82,8 +82,12 @@ export default {
     }
   },
   computed: {
-    fullName() {
-      return `${this.user.firstName} ${this.user.lastName}`
+    // fullName() {
+    //   return `${this.user.firstName} ${this.user.lastName}`
+    // },
+    newRecordCharacterCount(){
+      // console.log(`newRecordCharacterCount: ${ this.newRecordContent.length }`)
+      return this.newRecordContent.length;
     }
   },
   methods: {
@@ -94,7 +98,8 @@ export default {
         console.log(`Favoutited Record #${id}`)
     },
     createNewRecord() {
-      if(this.newRecordContent && this.selectedRecordContent != 'draft'){
+      if(this.newRecordContent 
+      && this.selectedRecordContent != 'draft'){
         this.user.records.unshift(
           {
             id: this.user.records.lenght + 1,
@@ -111,42 +116,54 @@ export default {
 }
 </script>
 
-<style>
+
+<style lang="scss" scoped>
 
 .user-profile {
   display: grid;
   grid-template-columns: 1fr 3fr;
   width: 100%;
   padding: 50px 5%;
-}
 
-.user-profile_panel{
-  display: flex;
-  flex-direction: column;
-  margin-right: 50px;
-  padding: 20px;
-  background-color: white;
-  border-radius: 5px;
-  border: 1px solid #DFE3E8
-}
-
-.user-profile_admin{
-    background: rebeccapurple;
-    color: white;
+  .user-profile_panel{
+    display: flex;
+    flex-direction: column;
+    margin-right: 50px;
+    padding: 20px;
+    background-color: white;
     border-radius: 5px;
-    margin-right: auto;
-    padding: 0 10px;
-    font-weight: bold;
+    border: 1px solid #DFE3E8;
+
+    .user-profile_admin{
+      background: rebeccapurple;
+      color: white;
+      border-radius: 5px;
+      margin-right: auto;
+      padding: 0 10px;
+      font-weight: bold;
+    }
+
+    .user-profile_create-record{
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+
+      &.--exceeded{
+        border-color: red;
+        color: red;
+      }
+    }
+
+    h1{
+      margin: 0;
+    }
+  }
+
+  .user-profile_records-wrapper{
+    display: grid;
+    grid-gap: 10px;
+  }
 }
 
-.user-profile_create-record{
-  margin-top: 20px;
-  display: flex;
-  flex-direction: column;
-}
-
-h1{
-  margin: 0;
-}
 
 </style>

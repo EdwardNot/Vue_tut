@@ -32,7 +32,7 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss" scoped>
 
 .record-item{
     padding: 20px;
@@ -42,14 +42,15 @@ export default {
     box-sizing: border-box;
     cursor: pointer;
     transition: all 0.25s ease;
-}
 
-.record-item:hover{
-    transform: scale(1.1, 1.1);
-}
+    &:hover{
+        transform: scale(1.1, 1.1);
+    }
 
-.record-item_user{
-    font-weight: bold;
+    .record-item_user{
+        font-weight: bold;
+    }
+
 }
 
 </style>
