@@ -6,6 +6,23 @@
       <div class = "user-profile_follower-counter">
         <strong>Followers:</strong> {{ followers }}
       </div>
+      <form class="user-profile_create-record" @submit.prevent="createNewRecord">
+        <label for="newRecord"><strong>New Record</strong></label>
+        <textarea id="newRecord" rows="4" v-model="newRecordContent"></textarea>
+
+        <div class="user-profile_create-record-type">
+          <label for="newRecordType"><strong>Choose Type: </strong></label>
+          <select id="newRecordType" v-model="selectedRecordContent">
+            <option :value="option.value" v-for="(option, index) in recordTypes" :key="index">
+              {{option.name}}
+            </option>
+          </select>
+        </div>
+
+        <button>
+          Publish!
+        </button>
+      </form>
       <!-- <button @click="followUser">
         Follow
       </button> -->
@@ -36,6 +53,12 @@ export default {
   components: { Record },
   data() {
     return {
+      newRecordContent: '',
+      selectedRecordContent: 'instant',
+      recordTypes: [
+        {value: 'draft', name: 'Draft'},
+        {value: 'instant', name: 'Instant Record'}
+      ],
       followers: 0,
       user: {
         id: 1,
@@ -69,6 +92,17 @@ export default {
     },
     toggleFavorite(id){
         console.log(`Favoutited Record #${id}`)
+    },
+    createNewRecord() {
+      if(this.newRecordContent && this.selectedRecordContent != 'draft'){
+        this.user.records.unshift(
+          {
+            id: this.user.records.lenght + 1,
+            content: this.newRecordContent
+          }
+        )
+        this.newRecordContent = '';
+      }
     }
   },
   mounted() {
@@ -103,6 +137,12 @@ export default {
     margin-right: auto;
     padding: 0 10px;
     font-weight: bold;
+}
+
+.user-profile_create-record{
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
 }
 
 h1{
